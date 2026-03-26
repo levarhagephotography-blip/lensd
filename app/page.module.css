@@ -1,0 +1,304 @@
+.pageShell {
+  width: min(100%, 32rem);
+  margin: 0 auto;
+  padding: 1rem 1rem 4rem;
+}
+
+.heroPanel {
+  position: relative;
+  overflow: hidden;
+  padding: 1.2rem 0 1rem;
+}
+
+.heroBackdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(184, 255, 54, 0.16), transparent 30%),
+    radial-gradient(circle at 85% 0%, rgba(247, 201, 72, 0.16), transparent 26%);
+  filter: blur(10px);
+}
+
+.eyebrow {
+  position: relative;
+  margin: 0 0 0.75rem;
+  color: var(--neon);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+}
+
+.heroTitle,
+.sectionTitle,
+.emptyTitle,
+.locationName,
+.platformTitleWrap h3,
+.cardLabel,
+.fieldLabel {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.heroTitle {
+  position: relative;
+  margin: 0;
+  font-size: clamp(4rem, 24vw, 6.5rem);
+  line-height: 0.88;
+}
+
+.heroText,
+.moodBlock,
+.locationDescription,
+.captionText,
+.emptyText,
+.errorText {
+  position: relative;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.formCard,
+.locationCard,
+.platformCard,
+.audioChip,
+.emptyState,
+.moodBlock {
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.formCard {
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 1.5rem;
+}
+
+.fieldLabel {
+  display: block;
+  margin: 0.35rem 0 0.4rem;
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
+.textInput,
+.selectInput {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border-radius: 1rem;
+  padding: 0.95rem 1rem;
+  outline: none;
+  margin-bottom: 0.85rem;
+}
+
+.textInput::placeholder {
+  color: rgba(245, 245, 245, 0.4);
+}
+
+.generateButton,
+.copyButton {
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.generateButton {
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(135deg, var(--gold), var(--neon));
+  color: #050505;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 16px 30px rgba(184, 255, 54, 0.2);
+}
+
+.generateButton:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.generateButton:hover,
+.copyButton:hover {
+  transform: translateY(-1px);
+}
+
+.errorText {
+  color: #ff8f8f;
+}
+
+.resultsSection {
+  margin-top: 1.5rem;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 0.85rem;
+  align-items: end;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 2.35rem;
+  line-height: 0.95;
+}
+
+.audioChip {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1.15rem;
+  color: var(--white);
+}
+
+.audioLabel,
+.bestTime,
+.emptyLabel {
+  color: var(--gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+}
+
+.moodBlock {
+  margin: 1rem 0 1.1rem;
+  padding: 1rem;
+  border-radius: 1.2rem;
+}
+
+.locationGrid,
+.platformGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.locationCard,
+.platformCard,
+.emptyState {
+  border-radius: 1.5rem;
+  padding: 1rem;
+}
+
+.locationMeta,
+.platformHeader,
+.platformTitleWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.locationIndex {
+  font-family: var(--font-display), sans-serif;
+  color: var(--neon);
+  font-size: 1.75rem;
+}
+
+.locationName {
+  margin: 0.55rem 0 0.35rem;
+  font-size: 2rem;
+  line-height: 0.95;
+}
+
+.locationDescription {
+  margin: 0 0 1rem;
+}
+
+.cardBlock + .cardBlock {
+  margin-top: 1rem;
+}
+
+.cardLabel {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+}
+
+.tokenList,
+.detailList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.tokenList li,
+.detailList li {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.8rem 0.9rem;
+}
+
+.platformGrid {
+  margin-top: 1rem;
+}
+
+.platformTitleWrap h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.platformTitleWrap svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.copyButton {
+  padding: 0.72rem 0.95rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+}
+
+.captionText {
+  margin: 1rem 0 0.8rem;
+}
+
+.hashtagText {
+  margin: 0;
+  color: var(--neon);
+  line-height: 1.6;
+}
+
+.emptyState {
+  margin-top: 1.4rem;
+}
+
+.emptyTitle {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 2.3rem;
+  line-height: 0.95;
+}
+
+@media (min-width: 700px) {
+  .pageShell {
+    width: min(100%, 68rem);
+    padding: 1.5rem 1.5rem 4rem;
+  }
+
+  .locationGrid,
+  .platformGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .locationGrid > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .sectionHeader {
+    grid-template-columns: 1fr auto;
+  }
+}
