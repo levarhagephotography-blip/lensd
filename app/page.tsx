@@ -11,6 +11,34 @@ const vibeOptions: VibeOption[] = [
   "Nature Escape"
 ];
 
+const CREATOR_PROFILE_KEY = "lensd_creator_profile";
+
+type QuizAnswer = {
+  shootType: "Photos" | "Videos" | "Both";
+  platform: "TikTok" | "Instagram" | "Both";
+  gear: "iPhone" | "Camera" | "Both";
+  level: "Just Starting" | "Getting Better" | "Pretty Solid" | "I Charge For This";
+  vibe: "Urban" | "Dreamy" | "Nature" | "Editorial";
+};
+
+type CreatorProfile = {
+  type: string;
+  tagline: string;
+  summary: string;
+  answers: QuizAnswer;
+};
+
+type QuizOption<T extends string> = {
+  label: T;
+  emoji?: string;
+};
+
+type QuizCard = {
+  id: keyof QuizAnswer;
+  prompt: string;
+  options: QuizOption<QuizAnswer[keyof QuizAnswer]>[];
+};
+
 type ThemeTokens = {
   background: string;
   accent: string;
@@ -95,6 +123,180 @@ const vibeThemes: Record<VibeOption, ThemeTokens> = {
   }
 };
 
+const quizCards: QuizCard[] = [
+  {
+    id: "shootType",
+    prompt: "WHAT DO YOU SHOOT?",
+    options: [
+      { label: "Photos", emoji: "📸" },
+      { label: "Videos", emoji: "🎬" },
+      { label: "Both", emoji: "🔥" }
+    ]
+  },
+  {
+    id: "platform",
+    prompt: "WHAT'S YOUR PLATFORM?",
+    options: [{ label: "TikTok" }, { label: "Instagram" }, { label: "Both" }]
+  },
+  {
+    id: "gear",
+    prompt: "WHAT'S YOUR GEAR?",
+    options: [
+      { label: "iPhone", emoji: "📱" },
+      { label: "Camera", emoji: "📷" },
+      { label: "Both" }
+    ]
+  },
+  {
+    id: "level",
+    prompt: "WHAT'S YOUR SKILL LEVEL?",
+    options: [
+      { label: "Just Starting" },
+      { label: "Getting Better" },
+      { label: "Pretty Solid" },
+      { label: "I Charge For This" }
+    ]
+  },
+  {
+    id: "vibe",
+    prompt: "WHAT'S YOUR VIBE?",
+    options: [
+      { label: "Urban" },
+      { label: "Dreamy" },
+      { label: "Nature" },
+      { label: "Editorial" }
+    ]
+  }
+];
+
+function mapQuizVibeToPlannerVibe(value: QuizAnswer["vibe"]): VibeOption {
+  switch (value) {
+    case "Urban":
+      return "Urban Grit";
+    case "Dreamy":
+      return "Soft & Dreamy";
+    case "Nature":
+      return "Nature Escape";
+    case "Editorial":
+      return "Golden Hour";
+  }
+}
+
+function buildCreatorProfile(answers: QuizAnswer): CreatorProfile {
+  const typeMap: Record<QuizAnswer["vibe"], Record<QuizAnswer["gear"], Record<QuizAnswer["level"], string>>> =
+    {
+      Urban: {
+        iPhone: {
+          "Just Starting": "The Street Starter",
+          "Getting Better": "The City Climber",
+          "Pretty Solid": "The Concrete Stylist",
+          "I Charge For This": "The Urban Shotcaller"
+        },
+        Camera: {
+          "Just Starting": "The Raw Frame Rookie",
+          "Getting Better": "The Alley Auteur",
+          "Pretty Solid": "The Night Shift Shooter",
+          "I Charge For This": "The Asphalt Director"
+        },
+        Both: {
+          "Just Starting": "The Sidewalk Switch-Up",
+          "Getting Better": "The Motion Scout",
+          "Pretty Solid": "The Streetworld Builder",
+          "I Charge For This": "The City Vision Boss"
+        }
+      },
+      Dreamy: {
+        iPhone: {
+          "Just Starting": "The Soft Light Starter",
+          "Getting Better": "The Blur Poet",
+          "Pretty Solid": "The Mood Weaver",
+          "I Charge For This": "The Velvet Visionary"
+        },
+        Camera: {
+          "Just Starting": "The Daydream Framer",
+          "Getting Better": "The Haze Sculptor",
+          "Pretty Solid": "The Romantic Auteur",
+          "I Charge For This": "The Dream Sequence Director"
+        },
+        Both: {
+          "Just Starting": "The Cloud Chaser",
+          "Getting Better": "The Soft Motion Muse",
+          "Pretty Solid": "The Atmosphere Stylist",
+          "I Charge For This": "The Cinematic Whisperer"
+        }
+      },
+      Nature: {
+        iPhone: {
+          "Just Starting": "The Trail Starter",
+          "Getting Better": "The Golden Path Creator",
+          "Pretty Solid": "The Wild Frame Finder",
+          "I Charge For This": "The Outdoor Story Lead"
+        },
+        Camera: {
+          "Just Starting": "The Forest Framer",
+          "Getting Better": "The Terrain Teller",
+          "Pretty Solid": "The Natural Light Operator",
+          "I Charge For This": "The Earth Tone Director"
+        },
+        Both: {
+          "Just Starting": "The Open Air Explorer",
+          "Getting Better": "The Scenic Switch-Up",
+          "Pretty Solid": "The Wilderness Stylist",
+          "I Charge For This": "The Escape Architect"
+        }
+      },
+      Editorial: {
+        iPhone: {
+          "Just Starting": "The Taste Scout",
+          "Getting Better": "The Layout Learner",
+          "Pretty Solid": "The Feed Curator",
+          "I Charge For This": "The Culture Editor"
+        },
+        Camera: {
+          "Just Starting": "The Frame Assistant",
+          "Getting Better": "The Image Curator",
+          "Pretty Solid": "The Scene Director",
+          "I Charge For This": "The Visual Director"
+        },
+        Both: {
+          "Just Starting": "The Moodboard Maker",
+          "Getting Better": "The Scene Curator",
+          "Pretty Solid": "The Multi-Format Director",
+          "I Charge For This": "The Brand World Builder"
+        }
+      }
+    };
+
+  const platformTag =
+    answers.platform === "Both"
+      ? "cross-platform"
+      : answers.platform === "TikTok"
+        ? "short-form"
+        : "editorial-feed";
+  const shootTag =
+    answers.shootType === "Both"
+      ? "photo-and-motion"
+      : answers.shootType === "Videos"
+        ? "motion-first"
+        : "image-led";
+
+  return {
+    type: typeMap[answers.vibe][answers.gear][answers.level],
+    tagline: `${shootTag} ${platformTag} creator`,
+    summary: `You move like a ${answers.vibe.toLowerCase()}-leaning ${answers.gear.toLowerCase()} creative with ${answers.level.toLowerCase()} energy. LENSD will lean your plans toward ${answers.platform.toLowerCase()} moments and ${answers.shootType.toLowerCase()} storytelling.`,
+    answers
+  };
+}
+
+function SettingsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M10.8 2h2.4l.48 2.2c.53.14 1.04.35 1.5.62l2.05-.93 1.7 1.7-.94 2.05c.27.47.48.97.62 1.5L22 10.8v2.4l-2.2.48a6.6 6.6 0 0 1-.62 1.5l.94 2.05-1.7 1.7-2.05-.94c-.47.27-.97.48-1.5.62L13.2 22h-2.4l-.48-2.2a6.6 6.6 0 0 1-1.5-.62l-2.05.94-1.7-1.7.94-2.05a6.6 6.6 0 0 1-.62-1.5L2 13.2v-2.4l2.2-.48c.14-.53.35-1.03.62-1.5l-.94-2.05 1.7-1.7 2.05.93c.47-.27.97-.48 1.5-.62L10.8 2Z" />
+      <circle cx="12" cy="12" r="3.1" />
+    </svg>
+  );
+}
+
 function InstagramIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -135,6 +337,12 @@ export default function HomePage() {
   const [plan, setPlan] = useState<ShootPlan | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [creatorProfile, setCreatorProfile] = useState<CreatorProfile | null>(null);
+  const [quizAnswers, setQuizAnswers] = useState<Partial<QuizAnswer>>({});
+  const [currentQuizCard, setCurrentQuizCard] = useState(0);
+  const [showProfileReveal, setShowProfileReveal] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const theme = useMemo(() => vibeThemes[vibe], [vibe]);
 
   useEffect(() => {
@@ -158,6 +366,60 @@ export default function HomePage() {
     root.style.setProperty("--glow-a", theme.glowA);
     root.style.setProperty("--glow-b", theme.glowB);
   }, [theme]);
+
+  useEffect(() => {
+    const storedProfile = window.localStorage.getItem(CREATOR_PROFILE_KEY);
+
+    if (storedProfile) {
+      try {
+        const parsed = JSON.parse(storedProfile) as CreatorProfile;
+        setCreatorProfile(parsed);
+        setVibe(mapQuizVibeToPlannerVibe(parsed.answers.vibe));
+      } catch {
+        window.localStorage.removeItem(CREATOR_PROFILE_KEY);
+      }
+    }
+
+    setIsReady(true);
+  }, []);
+
+  function handleQuizAnswer(questionId: keyof QuizAnswer, value: QuizAnswer[keyof QuizAnswer]) {
+    const nextAnswers = {
+      ...quizAnswers,
+      [questionId]: value
+    } as Partial<QuizAnswer>;
+
+    setQuizAnswers(nextAnswers);
+
+    if (questionId === "vibe") {
+      setVibe(mapQuizVibeToPlannerVibe(value as QuizAnswer["vibe"]));
+    }
+
+    if (currentQuizCard === quizCards.length - 1) {
+      const completedAnswers = nextAnswers as QuizAnswer;
+      const nextProfile = buildCreatorProfile(completedAnswers);
+
+      setCreatorProfile(nextProfile);
+      setShowProfileReveal(true);
+      window.localStorage.setItem(CREATOR_PROFILE_KEY, JSON.stringify(nextProfile));
+      setVibe(mapQuizVibeToPlannerVibe(completedAnswers.vibe));
+      return;
+    }
+
+    setCurrentQuizCard((card) => card + 1);
+  }
+
+  function handleRetakeQuiz() {
+    window.localStorage.removeItem(CREATOR_PROFILE_KEY);
+    setCreatorProfile(null);
+    setQuizAnswers({});
+    setCurrentQuizCard(0);
+    setShowProfileReveal(false);
+    setSettingsOpen(false);
+    setPlan(null);
+    setError("");
+    setVibe("Urban Grit");
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -188,8 +450,111 @@ export default function HomePage() {
     }
   }
 
+  if (!isReady) {
+    return <main className={styles.pageShell} />;
+  }
+
+  if (!creatorProfile) {
+    return (
+      <main className={`${styles.pageShell} ${styles.quizShell}`}>
+        <section className={styles.quizScreen}>
+          <div className={styles.quizHeader}>
+            <p className={styles.eyebrow}>FIRST LOOK</p>
+            <h1 className={styles.quizTitle}>LET'S BUILD YOUR CREATOR PROFILE</h1>
+            <p className={styles.quizIntro}>
+              Swipe through the vibe cards, tap what fits, and LENSD will tune the experience to
+              your creative lane.
+            </p>
+          </div>
+
+          <div className={styles.quizProgress}>
+            {quizCards.map((card, index) => (
+              <span
+                key={card.id}
+                className={`${styles.progressDot} ${
+                  index <= currentQuizCard ? styles.progressDotActive : ""
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className={styles.quizViewport}>
+            <div
+              className={styles.quizTrack}
+              style={{ transform: `translateX(-${currentQuizCard * 100}%)` }}
+            >
+              {quizCards.map((card, index) => (
+                <article className={styles.quizCard} key={card.id}>
+                  <p className={styles.quizCounter}>CARD 0{index + 1}</p>
+                  <h2 className={styles.quizPrompt}>{card.prompt}</h2>
+                  <div className={styles.quizOptions}>
+                    {card.options.map((option) => (
+                      <button
+                        key={option.label}
+                        type="button"
+                        className={styles.quizOption}
+                        onClick={() => handleQuizAnswer(card.id, option.label)}
+                      >
+                        <span className={styles.quizOptionEmoji}>{option.emoji || "✦"}</span>
+                        <span>{option.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <p className={styles.quizHint}>TAP AN ANSWER TO SLIDE TO THE NEXT CARD</p>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className={styles.pageShell}>
+      <div className={styles.topControls}>
+        <button
+          type="button"
+          className={styles.settingsButton}
+          aria-label="Open settings"
+          onClick={() => setSettingsOpen((open) => !open)}
+        >
+          <SettingsIcon />
+        </button>
+        {settingsOpen ? (
+          <div className={styles.settingsMenu}>
+            <button type="button" className={styles.settingsMenuButton} onClick={handleRetakeQuiz}>
+              RETAKE QUIZ
+            </button>
+          </div>
+        ) : null}
+      </div>
+
+      {showProfileReveal ? (
+        <section className={styles.profileReveal}>
+          <p className={styles.eyebrow}>YOUR CREATOR TYPE</p>
+          <article className={styles.profileCard}>
+            <span className={styles.profileTag}>{creatorProfile.tagline.toUpperCase()}</span>
+            <h2 className={styles.profileTitle}>{creatorProfile.type}</h2>
+            <p className={styles.profileSummary}>{creatorProfile.summary}</p>
+            <div className={styles.profileStats}>
+              <span>{creatorProfile.answers.gear}</span>
+              <span>{creatorProfile.answers.platform}</span>
+              <span>{creatorProfile.answers.vibe}</span>
+              <span>{creatorProfile.answers.level}</span>
+            </div>
+            <button
+              type="button"
+              className={styles.generateButton}
+              onClick={() => setShowProfileReveal(false)}
+            >
+              ENTER LENSD
+            </button>
+          </article>
+        </section>
+      ) : null}
+
       <section className={styles.heroPanel}>
         <div className={styles.heroBackdrop} />
         <p className={styles.eyebrow}>CREATIVE SHOOT PLANNER</p>
@@ -198,6 +563,14 @@ export default function HomePage() {
           Build a full creative direction deck for your next photo dump, Reel, TikTok, or
           editorial shoot. Pick the city. Pick the energy. LENSD handles the rest.
         </p>
+
+        <article className={styles.creatorProfileBanner}>
+          <div>
+            <p className={styles.bannerLabel}>CREATOR PROFILE</p>
+            <h2 className={styles.bannerTitle}>{creatorProfile.type}</h2>
+          </div>
+          <p className={styles.bannerText}>{creatorProfile.summary}</p>
+        </article>
 
         <form className={styles.formCard} onSubmit={handleSubmit}>
           <label className={styles.fieldLabel} htmlFor="city">

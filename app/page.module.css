@@ -5,6 +5,66 @@
   min-height: 100vh;
 }
 
+.quizShell {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.topControls {
+  position: sticky;
+  top: 0.85rem;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.35rem;
+}
+
+.settingsButton,
+.settingsMenuButton,
+.quizOption {
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel-soft), color-mix(in srgb, var(--panel) 92%, black));
+  color: var(--text);
+}
+
+.settingsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+
+.settingsButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+
+.settingsMenu {
+  position: absolute;
+  top: 3.4rem;
+  right: 0;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel) 95%, black);
+  box-shadow: var(--shadow);
+}
+
+.settingsMenuButton {
+  padding: 0.85rem 1rem;
+  border-radius: 0.85rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
 .heroPanel {
   position: relative;
   overflow: hidden;
@@ -35,7 +95,11 @@
 .locationName,
 .platformTitleWrap h3,
 .cardLabel,
-.fieldLabel {
+.fieldLabel,
+.quizTitle,
+.quizPrompt,
+.profileTitle,
+.bannerTitle {
   font-family: var(--font-display), sans-serif;
   letter-spacing: 0.04em;
 }
@@ -136,7 +200,10 @@
 }
 
 .generateButton:hover,
-.copyButton:hover {
+.copyButton:hover,
+.settingsButton:hover,
+.settingsMenuButton:hover,
+.quizOption:hover {
   transform: translateY(-1px);
 }
 
@@ -146,6 +213,197 @@
 
 .resultsSection {
   margin-top: 1.5rem;
+}
+
+.profileReveal,
+.quizScreen {
+  min-height: 100vh;
+}
+
+.profileReveal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding: 1.2rem;
+  background:
+    radial-gradient(circle at 20% 15%, var(--glow-a), transparent 26%),
+    radial-gradient(circle at 80% 5%, var(--glow-b), transparent 22%),
+    color-mix(in srgb, var(--bg) 86%, black);
+}
+
+.profileCard,
+.creatorProfileBanner,
+.quizCard,
+.quizViewport {
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel-soft), color-mix(in srgb, var(--panel) 92%, black));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.profileCard {
+  border-radius: 1.65rem;
+  padding: 1.2rem;
+}
+
+.profileTag,
+.bannerLabel,
+.quizCounter,
+.quizHint {
+  color: var(--accent);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+}
+
+.profileTitle {
+  margin: 0.45rem 0 0.5rem;
+  font-size: clamp(2.5rem, 12vw, 4.4rem);
+  line-height: 0.9;
+}
+
+.profileSummary,
+.bannerText,
+.quizIntro {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.profileStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1rem 0 1.2rem;
+}
+
+.profileStats span {
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--button) 12%, var(--panel));
+  font-size: 0.82rem;
+}
+
+.creatorProfileBanner {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 1.4rem;
+}
+
+.bannerLabel {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.bannerTitle {
+  margin: 0;
+  font-size: 1.7rem;
+  line-height: 0.95;
+}
+
+.bannerText {
+  margin: 0.65rem 0 0;
+}
+
+.quizScreen {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.quizHeader {
+  width: min(100%, 32rem);
+  margin: 0 auto;
+}
+
+.quizTitle {
+  margin: 0;
+  font-size: clamp(3rem, 14vw, 5rem);
+  line-height: 0.9;
+}
+
+.quizIntro {
+  margin: 0.7rem 0 0;
+}
+
+.quizProgress {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: min(100%, 32rem);
+  margin: 0 auto;
+}
+
+.progressDot {
+  height: 0.3rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text) 12%, transparent);
+}
+
+.progressDotActive {
+  background: linear-gradient(90deg, var(--accent), var(--button));
+}
+
+.quizViewport {
+  width: min(100%, 32rem);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 1.6rem;
+}
+
+.quizTrack {
+  display: flex;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.quizCard {
+  width: 100%;
+  flex: 0 0 100%;
+  min-height: 28rem;
+  padding: 1.2rem;
+  border-radius: 1.6rem;
+}
+
+.quizPrompt {
+  margin: 0.65rem 0 1rem;
+  font-size: clamp(2rem, 10vw, 3rem);
+  line-height: 0.92;
+}
+
+.quizOptions {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.quizOption {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1.2rem;
+  text-align: left;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.45rem;
+  letter-spacing: 0.03em;
+  box-shadow: var(--shadow);
+}
+
+.quizOptionEmoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+}
+
+.quizHint {
+  width: min(100%, 32rem);
+  margin: 0 auto;
+  text-align: center;
 }
 
 .sectionHeader {
