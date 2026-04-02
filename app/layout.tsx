@@ -15,8 +15,32 @@ const bodyFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "LENSD",
-  description: "Creative shoot planner for photographers, content creators, and lifestyle brands."
+  metadataBase: new URL("https://lensd.vercel.app"),
+  title: "LENSD — Your AI Creative Shoot Companion",
+  description:
+    "Stop showing up with no plan. AI-powered shoot planner for photographers and content creators.",
+  openGraph: {
+    title: "LENSD — Your AI Creative Shoot Companion",
+    description:
+      "Stop showing up with no plan. AI-powered shoot planner for photographers and content creators.",
+    type: "website",
+    url: "https://lensd.vercel.app",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "LENSD preview image"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LENSD — Your AI Creative Shoot Companion",
+    description:
+      "Stop showing up with no plan. AI-powered shoot planner for photographers and content creators.",
+    images: ["/opengraph-image"]
+  }
 };
 
 export default function RootLayout({
