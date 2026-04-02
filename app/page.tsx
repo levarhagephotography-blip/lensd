@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ShootPlan, VibeOption } from "@/app/types";
 import styles from "./page.module.css";
+import { AskLENSD } from "./AskLENSD";
 
 const vibeOptions: VibeOption[] = [
   "Golden Hour",
@@ -708,6 +709,8 @@ export default function HomePage() {
           </p>
         </section>
       )}
+
+      <AskLENSD />
     </main>
   );
 }
