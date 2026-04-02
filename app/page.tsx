@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ShootPlan, VibeOption } from "@/app/types";
 import styles from "./page.module.css";
 
@@ -10,6 +10,90 @@ const vibeOptions: VibeOption[] = [
   "Soft & Dreamy",
   "Nature Escape"
 ];
+
+type ThemeTokens = {
+  background: string;
+  accent: string;
+  text: string;
+  button: string;
+  buttonText: string;
+  muted: string;
+  panel: string;
+  panelSoft: string;
+  border: string;
+  inputBg: string;
+  inputBorder: string;
+  shadow: string;
+  glowA: string;
+  glowB: string;
+};
+
+const vibeThemes: Record<VibeOption, ThemeTokens> = {
+  "Golden Hour": {
+    background: "#2D1B00",
+    accent: "#FFB347",
+    text: "#FFF8F0",
+    button: "#FF8C00",
+    buttonText: "#FFF8F0",
+    muted: "rgba(255, 248, 240, 0.78)",
+    panel: "rgba(74, 45, 8, 0.78)",
+    panelSoft: "rgba(107, 63, 8, 0.62)",
+    border: "rgba(255, 179, 71, 0.28)",
+    inputBg: "rgba(255, 248, 240, 0.08)",
+    inputBorder: "rgba(255, 179, 71, 0.3)",
+    shadow: "0 20px 45px rgba(0, 0, 0, 0.42)",
+    glowA: "rgba(255, 179, 71, 0.24)",
+    glowB: "rgba(255, 140, 0, 0.16)"
+  },
+  "Urban Grit": {
+    background: "#0D0D0D",
+    accent: "#FFFFFF",
+    text: "#E0E0E0",
+    button: "#00FF85",
+    buttonText: "#0D0D0D",
+    muted: "rgba(224, 224, 224, 0.72)",
+    panel: "rgba(24, 24, 24, 0.84)",
+    panelSoft: "rgba(255, 255, 255, 0.04)",
+    border: "rgba(255, 255, 255, 0.12)",
+    inputBg: "rgba(255, 255, 255, 0.05)",
+    inputBorder: "rgba(255, 255, 255, 0.12)",
+    shadow: "0 20px 45px rgba(0, 0, 0, 0.45)",
+    glowA: "rgba(255, 255, 255, 0.14)",
+    glowB: "rgba(0, 255, 133, 0.16)"
+  },
+  "Soft & Dreamy": {
+    background: "#1A1A2E",
+    accent: "#7EB5A6",
+    text: "#FFD6D6",
+    button: "#B784A7",
+    buttonText: "#FFF8F5",
+    muted: "rgba(255, 214, 214, 0.78)",
+    panel: "rgba(39, 38, 67, 0.82)",
+    panelSoft: "rgba(126, 181, 166, 0.14)",
+    border: "rgba(126, 181, 166, 0.22)",
+    inputBg: "rgba(255, 214, 214, 0.06)",
+    inputBorder: "rgba(126, 181, 166, 0.24)",
+    shadow: "0 22px 48px rgba(10, 10, 30, 0.44)",
+    glowA: "rgba(126, 181, 166, 0.18)",
+    glowB: "rgba(183, 132, 167, 0.16)"
+  },
+  "Nature Escape": {
+    background: "#0D1F0D",
+    accent: "#C4A882",
+    text: "#E8DCC8",
+    button: "#4A7C59",
+    buttonText: "#F5F0E8",
+    muted: "rgba(232, 220, 200, 0.78)",
+    panel: "rgba(21, 44, 24, 0.84)",
+    panelSoft: "rgba(74, 124, 89, 0.16)",
+    border: "rgba(196, 168, 130, 0.22)",
+    inputBg: "rgba(232, 220, 200, 0.05)",
+    inputBorder: "rgba(196, 168, 130, 0.24)",
+    shadow: "0 22px 48px rgba(3, 12, 4, 0.5)",
+    glowA: "rgba(196, 168, 130, 0.16)",
+    glowB: "rgba(74, 124, 89, 0.18)"
+  }
+};
 
 function InstagramIcon() {
   return (
@@ -51,6 +135,29 @@ export default function HomePage() {
   const [plan, setPlan] = useState<ShootPlan | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const theme = useMemo(() => vibeThemes[vibe], [vibe]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+
+    root.style.setProperty("--bg", theme.background);
+    root.style.setProperty("--text", theme.text);
+    root.style.setProperty("--white", theme.text);
+    root.style.setProperty("--accent", theme.accent);
+    root.style.setProperty("--gold", theme.accent);
+    root.style.setProperty("--neon", theme.button);
+    root.style.setProperty("--button", theme.button);
+    root.style.setProperty("--button-text", theme.buttonText);
+    root.style.setProperty("--muted", theme.muted);
+    root.style.setProperty("--panel", theme.panel);
+    root.style.setProperty("--panel-soft", theme.panelSoft);
+    root.style.setProperty("--border", theme.border);
+    root.style.setProperty("--input-bg", theme.inputBg);
+    root.style.setProperty("--input-border", theme.inputBorder);
+    root.style.setProperty("--shadow", theme.shadow);
+    root.style.setProperty("--glow-a", theme.glowA);
+    root.style.setProperty("--glow-b", theme.glowB);
+  }, [theme]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

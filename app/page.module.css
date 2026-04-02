@@ -2,6 +2,7 @@
   width: min(100%, 32rem);
   margin: 0 auto;
   padding: 1rem 1rem 4rem;
+  min-height: 100vh;
 }
 
 .heroPanel {
@@ -15,15 +16,15 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 15% 10%, rgba(184, 255, 54, 0.16), transparent 30%),
-    radial-gradient(circle at 85% 0%, rgba(247, 201, 72, 0.16), transparent 26%);
+    radial-gradient(circle at 15% 10%, var(--glow-a), transparent 30%),
+    radial-gradient(circle at 85% 0%, var(--glow-b), transparent 26%);
   filter: blur(10px);
 }
 
 .eyebrow {
   position: relative;
   margin: 0 0 0.75rem;
-  color: var(--neon);
+  color: var(--accent);
   font-size: 0.75rem;
   letter-spacing: 0.24em;
 }
@@ -51,7 +52,8 @@
 .locationDescription,
 .captionText,
 .emptyText,
-.errorText {
+.errorText,
+.bestTime {
   position: relative;
   color: var(--muted);
   line-height: 1.55;
@@ -64,7 +66,7 @@
 .emptyState,
 .moodBlock {
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+  background: linear-gradient(180deg, var(--panel-soft), color-mix(in srgb, var(--panel) 92%, black));
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
 }
@@ -86,8 +88,8 @@
 .textInput,
 .selectInput {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
   color: var(--text);
   border-radius: 1rem;
   padding: 0.95rem 1rem;
@@ -95,8 +97,14 @@
   margin-bottom: 0.85rem;
 }
 
+.textInput:focus,
+.selectInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
 .textInput::placeholder {
-  color: rgba(245, 245, 245, 0.4);
+  color: color-mix(in srgb, var(--text) 40%, transparent);
 }
 
 .generateButton,
@@ -114,12 +122,12 @@
   width: 100%;
   margin-top: 0.2rem;
   padding: 1rem 1.1rem;
-  background: linear-gradient(135deg, var(--gold), var(--neon));
-  color: #050505;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--button) 78%, var(--accent)), var(--button));
+  color: var(--button-text);
   font-family: var(--font-display), sans-serif;
   font-size: 1.35rem;
   letter-spacing: 0.04em;
-  box-shadow: 0 16px 30px rgba(184, 255, 54, 0.2);
+  box-shadow: 0 16px 30px color-mix(in srgb, var(--button) 24%, transparent);
 }
 
 .generateButton:disabled {
@@ -157,13 +165,12 @@
   gap: 0.15rem;
   padding: 0.95rem 1rem;
   border-radius: 1.15rem;
-  color: var(--white);
+  color: var(--text);
 }
 
 .audioLabel,
-.bestTime,
 .emptyLabel {
-  color: var(--gold);
+  color: var(--accent);
   font-size: 0.75rem;
   letter-spacing: 0.15em;
 }
@@ -198,7 +205,7 @@
 
 .locationIndex {
   font-family: var(--font-display), sans-serif;
-  color: var(--neon);
+  color: var(--button);
   font-size: 1.75rem;
 }
 
@@ -232,9 +239,9 @@
 
 .tokenList li,
 .detailList li {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: color-mix(in srgb, var(--panel-soft) 90%, transparent);
   padding: 0.8rem 0.9rem;
 }
 
@@ -257,10 +264,11 @@
 
 .copyButton {
   padding: 0.72rem 0.95rem;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--white);
+  background: color-mix(in srgb, var(--button) 16%, var(--panel));
+  color: var(--text);
   font-size: 0.76rem;
   letter-spacing: 0.12em;
+  border: 1px solid color-mix(in srgb, var(--button) 30%, transparent);
 }
 
 .captionText {
@@ -269,7 +277,7 @@
 
 .hashtagText {
   margin: 0;
-  color: var(--neon);
+  color: var(--button);
   line-height: 1.6;
 }
 
